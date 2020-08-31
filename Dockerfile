@@ -18,8 +18,10 @@ RUN npm install \
 
 COPY --from=builder /home/node/app/dist ./dist
 COPY .env ./
-COPY ./src ./src
+RUN mkdir -p src/controllers
+COPY src/controllers/ src/controllers/
 
 RUN mkdir -p logs storage output
 
-CMD npm run start
+# Need use node as root. npm does not send signal to child process!
+CMD ["node", "dist/index.bundle.js"]
