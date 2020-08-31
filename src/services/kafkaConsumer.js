@@ -45,5 +45,9 @@ export default {
         }
       }
     })
+  },
+  stopListener: async () => {
+    await consumer.disconnect()
+    logger.info('Consumer stopped.')
   }
 }
