@@ -105,8 +105,6 @@ export default {
     } catch (err) {
       throw new Error(`Fail to remove engineId.json file: ${err.message}`)
     }
-
-    return true
   }
 }
 
