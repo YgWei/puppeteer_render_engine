@@ -1,0 +1,12 @@
+version: "3"
+services:
+  render:
+    image: puppeteer:1.0.0
+    ports:
+      - "8080:8080"
+    container_name: puppeteer
+    volumes:
+      - .env:/home/node/app/.env
+      - ./logs:/home/node/app/logs
+      - ./output:/home/node/app/output
+      - ./storage:/home/node/app/storage
