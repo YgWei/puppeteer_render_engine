@@ -16,15 +16,24 @@ class RenderStartup extends Startup {
     await kafkaConsumer.startListener()
   }
 
+  /**
+   * Close all socket and connection.
+   */
   async registerShutdownEvent() {
-    process.on('beforeExit', async () => {
+    process.on('SIGTERM', async () => {
+      logger.info('Get SIGTERM. Stopping engine...')
       try {
-        logger.info('Get exit. Starting unregister engine...')
+        await kafkaConsumer.stopListener()
+      } catch (err) {
+        logger.error(err.message)
+      }
+      try {
         await engineServices.unregisterEngine()
       } catch (err) {
         logger.error(err.message)
       }
-      process.exit(0)
+      server.stop()
+      process.exitCode = 0 // exit gracefully
     })
   }
 
